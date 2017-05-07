@@ -1,0 +1,16 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Bezier.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Bezier.cs" Line="19" Column="9" />
+      <File FileName="Assets\Scripts\SegmentGenerator\SegmentGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameObjectDragAndDrop.cs" Line="26" Column="3" />
+      <File FileName="..\ForceTest\Assets\Scripts\ControlAutomaticMovment.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\HandlerLine.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
