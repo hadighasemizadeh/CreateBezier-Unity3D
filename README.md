@@ -3,8 +3,11 @@
 In this project you willsee how I make a bezier curve between different points.
 
  Version : 0.0.2
+ 
 	- Create curve point in a random X-Z space.
+	
 	- Update renderer only when it is neccessary.
+	
 	- Delete specific point of curve.
 	
  Version : 0.0.1
