@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{971462C9-462F-A468-5B1F-49B6815A5142}") = "CreateBezier-Unity3D", "Assembly-CSharp.csproj", "{401AACF0-C99D-73D2-F8E5-437591CCA7D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{401AACF0-C99D-73D2-F8E5-437591CCA7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{401AACF0-C99D-73D2-F8E5-437591CCA7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{401AACF0-C99D-73D2-F8E5-437591CCA7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{401AACF0-C99D-73D2-F8E5-437591CCA7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

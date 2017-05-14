@@ -1,55 +1,82 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(Bezier))]
 public class SegmentGenerator : MonoBehaviour {
 	
-	private string Point_Prefix 	    = "Point";
+	private string Point_Prefix 	    = "Point ";
 	private string Left_Handler_Prefix  = "L";
 	private string Right_Handler_Prefix = "R";
 	private int Index_point = 0;
 
+	private Bezier bz;
+
+	public InputField enteredIndex;
+
 	public GameObject PointPrefab;
-		
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-	public void GenerateSegment(){
+	void Start(){
+		bz = GetComponent<Bezier> ();
 
-		Bezier bz = GetComponent<Bezier> ();
 		if(bz == null){
 			print("Attached this script to wrong object!!");
 			return;
 		}
+	}
 
-		int controlPointsLength = (int) (Mathf.Floor(bz.controlPoints.Length/2)-1);
+	// Generate new point
+	public void GenerateSegment(){
 
-		GameObject pointGo = Instantiate(PointPrefab,new Vector3(0,0,0),transform.rotation);
+		 int curveCount = bz.controlPoints.Count;
 
-		//Main GameObject name
-		pointGo.name = Point_Prefix + controlPointsLength;
+		Vector3 rndPosition = new Vector3 (Random.Range(-15,15),0,Random.Range(-6,6));
+		GameObject pointGo = Instantiate(PointPrefab,rndPosition,transform.rotation);
 
-		// Childs name
-		pointGo.transform.GetChild(0).name = pointGo.name;
-		pointGo.transform.GetChild(1).name = Left_Handler_Prefix+ controlPointsLength;
-		pointGo.transform.GetChild(2).name = Right_Handler_Prefix+ controlPointsLength;
+		// Name different new node
+		pointGo.name = Point_Prefix + curveCount;
+		pointGo.transform.GetChild(0).name = Left_Handler_Prefix  + curveCount;
+		pointGo.transform.GetChild(1).name = Right_Handler_Prefix + curveCount;
 
 		// add point to the point controller
-		var listContrllerPoints = new List<Transform>(bz.controlPoints);
-		listContrllerPoints.Add (pointGo.transform.GetChild(1).transform);
-		listContrllerPoints.Add (pointGo.transform.GetChild(0).transform);
-		listContrllerPoints.Add (pointGo.transform.GetChild(2).transform);
+		bz.controlPoints.Add (pointGo.transform.transform);
 
-		// again put it on the script
-		bz.controlPoints = listContrllerPoints.ToArray();
+		// Update line renderer
+		bz.isReadyToUpdate = true;
+	}
 
-		bz.curveCount = (int)bz.controlPoints.Length / 3;
+	// Delete segmentation
+	public void DeleteSegment(){
+		// Check is there enough item to delete
+		if (bz.controlPoints.Count < 1) {
+			print("There is no enough item to delete!!");
+			return;
+		}
+
+		int deleteIndex = 0;
+
+		// is index filled
+		if (int.TryParse (enteredIndex.text, out deleteIndex)) {
+			// Securly limit input number to dont receive out of range error
+			deleteIndex = Mathf.Clamp (deleteIndex, 0, bz.controlPoints.Count-1);
+		} else {
+			// It didn't assigned because so index is last item of list
+			deleteIndex = bz.controlPoints.Count - 1;
+		}
+
+		// Time to destroy game object and its index on the list
+		GameObject tempGO = bz.controlPoints[deleteIndex].gameObject;
+		bz.controlPoints.Remove (bz.controlPoints[deleteIndex]);
+		Destroy (tempGO);
+
+		// It should be update again
+		bz.isReadyToUpdate = true;
+
+		// Hide when number of points is less than 30
+		if (bz.controlPoints.Count < 2) {
+			// So we dont need to do anything because it is assigned
+			bz.lineRenderer.numPositions = 0;
+		}
 	}
 }

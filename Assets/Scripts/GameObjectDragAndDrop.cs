@@ -8,8 +8,11 @@ public class GameObjectDragAndDrop : MonoBehaviour
 	public Vector3 screenPosition;
 	public Vector3 offset;
 
+	public Bezier bz;
+
 	void Update (){
 		
+		// When we click
 		if (Input.GetMouseButtonDown (0)) {
 				RaycastHit rayHit;
 
@@ -24,10 +27,12 @@ public class GameObjectDragAndDrop : MonoBehaviour
 			}	
 		}	
 
+		// When we left button
 		if (Input.GetMouseButtonUp (0)) {
 			isMouseDrag = false;
 		}
 
+		// When we are dragging 
 		if (isMouseDrag) {
 			//track mouse position.
 			Vector3 currentScreenSpace = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPosition.z);
@@ -37,6 +42,9 @@ public class GameObjectDragAndDrop : MonoBehaviour
 
 			//It will update target gameobject's current postion.
 			target.transform.position = currentPosition;
+
+			// Update only when it is necessary
+			bz.isReadyToUpdate = true;
 		}
 	}
 

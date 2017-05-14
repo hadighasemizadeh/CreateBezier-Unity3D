@@ -1,42 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+
 [RequireComponent(typeof(LineRenderer))]
 public class Bezier : MonoBehaviour
 {
-    public Transform[] controlPoints;
-	private LineRenderer lineRenderer;
-    
-	[HideInInspector] public int curveCount = 0;	
+	public List<Transform> controlPoints = new List<Transform> ();
+
+	[HideInInspector] public LineRenderer lineRenderer;
+
     private int layerOrder = 0;
-    private int SEGMENT_COUNT = 50;
-    
+
+	// Number of segment to draw each curve between two points
+    private int SEGMENT_COUNT = 30;
+
 	private bool isLoopCurve = false;
-		
+	public  bool isReadyToUpdate = true;
+
     void Start()
     {
 		lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.sortingLayerID = layerOrder;
-        curveCount = (int)controlPoints.Length / 3;
     }
 
     void Update()
     {
-        DrawCurve();
+		// Update beizer curve
+		if (isReadyToUpdate) {
+			DrawCurve ();
+		}
     }
     
     void DrawCurve()
     {
-        for (int j = 0; j <curveCount; j++)
-        {
-            for (int i = 1; i <= SEGMENT_COUNT; i++)
-            {
-                float t = i / (float)SEGMENT_COUNT;
-                int nodeIndex = j * 3;
-                Vector3 pixel = CalculateCubicBezierPoint(t, controlPoints [nodeIndex].position, controlPoints [nodeIndex + 1].position, controlPoints [nodeIndex + 2].position, controlPoints [nodeIndex + 3].position);
-                lineRenderer.SetVertexCount(((j * SEGMENT_COUNT) + i));
-                lineRenderer.SetPosition((j * SEGMENT_COUNT) + (i - 1), pixel);
-            }
-        }
+		for (int j = 0; j < controlPoints.Count-1; j++)
+		{		
+	        for (int i = 1; i <= SEGMENT_COUNT; i++)
+	        {
+	            float t = i / (float)SEGMENT_COUNT;
+
+				Vector3 pixel = CalculateCubicBezierPoint(t, controlPoints [j].position, controlPoints [j].GetChild(1).position,
+															 controlPoints [j+1].GetChild(0).position, controlPoints [j+1].position);
+
+				lineRenderer.numPositions = (j * SEGMENT_COUNT) + i;
+	            lineRenderer.SetPosition((j * SEGMENT_COUNT) + (i - 1), pixel);
+	        }
+	    }
+
+		isReadyToUpdate = false;
     }
 
 	// Bezier formula
